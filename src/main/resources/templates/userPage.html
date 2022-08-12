@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>User page</title>
+</head>
+<body>
+
+<!--nav bar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarText">
+        <span class="navbar-brand mb-0 mr-1 h1" th:text="${authorizedUser.getEmail()}"></span>
+        <span class="navbar-brand mb-0 mr-1 ">with roles:</span>
+        <span class="navbar-brand mb-0 mr-1 " th:each="role: ${authorizedUser.getRoles()}"
+              th:text="${role.name}"></span>
+    </div>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Log out</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container-fluid ">
+    <div class="row ">
+        <!--        side panel-->
+        <div class="col-2 bg-white p-0">
+            <ul class="nav nav-pills flex-column nav-tabs">
+                <li class="nav-item">
+                    <a id="userPanel-tab" href="#userPanel" class="nav-link active" data-toggle="tab"
+                       aria-controls="userPanel" aria-selected="true" role="tab">User</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-10 bg-light " style="height: calc(100vh - 56px)">
+            <div class="tab-pane fade show active" id="userPanel" role="tabpanel" aria-labelledby="userPanel-tab">
+                <h2>User information page</h2>
+
+                <div class="card">
+                    <div class="tab-content">
+
+                        <div><h5 class="card-header">About user</h5></div>
+                        <div class="container-fluid p-3">
+                            <table class="table table-striped" id="tableUser">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                                <tbody id="userInfo">
+                                <tr>
+                                    <td th:text="${authorizedUser.id}"></td>
+                                    <td th:text="${authorizedUser.firstName}"></td>
+                                    <td th:text="${authorizedUser.lastName}"></td>
+                                    <td th:text="${authorizedUser.age}"></td>
+                                    <td th:text="${authorizedUser.email}"></td>
+                                    <td th:text="${authorizedUser.getRolesString()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+            crossorigin="anonymous"></script>
+</body>
+</html>
