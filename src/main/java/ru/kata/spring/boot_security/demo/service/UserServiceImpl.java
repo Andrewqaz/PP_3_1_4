@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -12,8 +13,8 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserDao userDao;
-    private RoleDao roleDao;
+    private final UserDao userDao;
+    private final RoleDao roleDao;
 
     public UserServiceImpl(UserDao userDao, RoleDao roleDao) {
         this.userDao = userDao;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void addUser(User user) {
         Set<Role> roles = new HashSet<>();
         for (Role r : user.getRoles()) {
@@ -31,26 +33,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
     @Override
+    @Transactional
     public boolean deleteUserById(int id) {
         return userDao.deleteUserById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserById(int id) {
         return userDao.getUserById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserByEmail(String login) {
         return userDao.getUserByEmail(login);
     }
 
     @Override
+    @Transactional
     public boolean updateUser(User user) {
         if (user.getPassword() == null || user.getPassword().equals("")) {
             user.setPassword(userDao.getUserById(user.getId()).getPassword());
@@ -64,11 +71,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Role> listRoles() {
         return roleDao.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Role> getRolesFromString(String stringRole) {
         Set<Role> resultRoleSet = new HashSet<>();
         String[] rolesNames = stringRole.split(" ");
@@ -79,6 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Role getRoleByName(String roleName) {
         return roleDao.getByName(roleName);
     }

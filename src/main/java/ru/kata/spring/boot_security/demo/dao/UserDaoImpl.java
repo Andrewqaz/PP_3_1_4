@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.dao;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
@@ -10,7 +9,6 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-@Transactional
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
@@ -23,7 +21,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean deleteUserById(int id) {
-        if(getUserById(id) == null){
+        if (getUserById(id) == null) {
             return false;
         }
         entityManager.remove(entityManager.find(User.class, id));
